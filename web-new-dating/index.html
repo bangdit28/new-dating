@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🔥 Adult Dating Asia 🔥</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #111, #222);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2.2em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #ff4081;
+    }
+    p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #ff4081;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 50px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #e91e63;
+    }
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      font-size: 2em;
+      color: #ff4081;
+    }
+    #background-video {
+      position: fixed;
+      right: 0; bottom: 0;
+      min-width: 100%; min-height: 100%;
+      z-index: -1;
+      filter: brightness(0.3);
+    }
+    .chatbox {
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 20px;
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+    }
+    .chat-messages {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+    .chat-message {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+      margin-bottom: 10px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .countdown {
+      font-size: 1.5em;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">Loading...</div>
+  <video id="background-video" autoplay muted loop>
+    <source src="https://drive.google.com/file/d/1A7SwL9SDX28xBiOhl5KIdcy4IRO7Eq8b/preview" type="video/mp4">
+  </video>
+  <div class="container">
+    <h1 id="title">Adult Dating Asia</h1>
+    <img id="main-image" src="https://via.placeholder.com/600x350.png?text=Asian+Girl" alt="Profile Image" width="100%" style="border-radius: 10px; box-shadow: 0 0 15px #ff4081;">
+    <p id="desc">Find adult dating partners in your country ready to chat, meet, and more…</p>
+    <button id="cta">Start Now</button>
+    <div class="countdown" id="countdown">Time left: 10 seconds</div>
+    <div class="chatbox">
+      <div class="chat-messages" id="chat-messages">
+        <!-- dynamic messages will appear here -->
+      </div>
+    </div>
+  </div>
+  <audio id="bg-sound" autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  </audio>
+  <script>
+    window.addEventListener("load", () => {
+      document.getElementById("loader").style.display = "none";
+    });
+
+    let country = "Asia";
+    let countdown = 10;
+    let countdownEl = document.getElementById("countdown");
+    let finalURL = "YOUR_ADSTERRA_POPUNDER_URL";
+    const chatMessagesEl = document.getElementById("chat-messages");
+
+    fetch("https://ipapi.co/json/")
+      .then(response => response.json())
+      .then(data => {
+        country = data.country_name;
+        updateContent(country);
+      })
+      .catch(() => {
+        updateContent("Asia");
+      });
+
+    function updateContent(country) {
+      const titleEl = document.getElementById("title");
+      const descEl = document.getElementById("desc");
+      const ctaEl = document.getElementById("cta");
+      const imageEl = document.getElementById("main-image");
+
+      let messages = [];
+      let imageUrl = "https://via.placeholder.com/600x350.png?text=Asian+Girl";
+
+      switch(country) {
+        case "Indonesia":
+          titleEl.textContent = "Adult Dating Indonesia!";
+          descEl.textContent = "Temukan pasangan dewasa di Indonesia siap chat, ketemuan, dan lainnya!";
+          ctaEl.textContent = "Mulai Sekarang";
+          imageUrl = "https://via.placeholder.com/600x350.png?text=Indonesian+Girl";
+          finalURL = "YOUR_ADSTERRA_POPUNDER_URL?id=id";
+          messages = [
+            "Siti: Aku tunggu kamu... 😘", 
+            "Dewi: Chat sekarang ya 🙈", 
+            "Ayu: Nggak sabar! 😏",
+            "Rina: Hayu chat yuk 😋",
+            "Lala: Buruan dong, aku kangen! 💖"
+          ];
+          break;
+        default:
+          titleEl.textContent = "Adult Dating Asia!";
+          descEl.textContent = "Find adult dating partners in your country ready to chat, meet, and more…";
+          ctaEl.textContent = "Start Now";
+          finalURL = "YOUR_ADSTERRA_POPUNDER_URL?id=asia";
+          messages = [
+            "Girl: Hi there! 😘", 
+            "Sweetie: Can't wait to meet you! 😏", 
+            "Mina: Are you online now? 😍",
+            "Lily: Let’s talk! 🥰",
+            "Jade: I'm excited to meet you! 💋"
+          ];
+      }
+
+      imageEl.src = imageUrl;
+      startChatMessages(messages);
+      startCountdown();
+    }
+
+    function startChatMessages(messages) {
+      let allMessages = [];
+      let index = 0;
+
+      function addMessage() {
+        const msg = document.createElement("p");
+        msg.className = "chat-message";
+        msg.textContent = messages[index % messages.length];
+        chatMessagesEl.appendChild(msg);
+
+        const chatHeight = chatMessagesEl.offsetHeight;
+        const containerHeight = document.querySelector('.chatbox').offsetHeight;
+        
+        // Animate scroll upward
+        chatMessagesEl.animate(
+          [{ transform: `translateY(0)` }, { transform: `translateY(-${chatHeight - containerHeight}px)` }],
+          { duration: 5000, fill: 'forwards', easing: 'linear' }
+        );
+
+        index++;
+        setTimeout(addMessage, 2000); // adjust speed here
+      }
+
+      addMessage();
+    }
+
+    function startCountdown() {
+      countdownEl.textContent = `Time left: ${countdown} seconds`;
+      let interval = setInterval(() => {
+        countdown--;
+        countdownEl.textContent = `Time left: ${countdown} seconds`;
+        if(countdown <= 0) {
+          clearInterval(interval);
+          window.location.href = finalURL;
+        }
+      }, 1000);
+    }
+
+    document.getElementById("cta").addEventListener("click", () => {
+      window.location.href = finalURL;
+    });
+  </script>
+</body>
+</html>
